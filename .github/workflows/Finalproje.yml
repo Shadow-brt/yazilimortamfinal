@@ -31,3 +31,9 @@ jobs:
       with:
         paths: ${{ github.workspace }}/stok/target/site/jacoco/jacoco.xml
         token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Fail PR if overall coverage is less than 10%
+      if: ${{ steps.jacoco.outputs.coverage-overall < 10.00}}
+      uses: actions/github-script@v6
+      with: 
+        script:
+         core.setFailed('Overall coverage is less than 10%!')
